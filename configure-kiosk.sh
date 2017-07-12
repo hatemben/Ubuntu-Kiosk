@@ -31,6 +31,8 @@ readonly LOG_DIR="logs"
 readonly LOG_FILE="build_$START_TIME.log"
 readonly LOG_OUT="$launch_dir/$LOG_DIR/$LOG_FILE"
 readonly WEB_APP_URL="http://localhost"
+readonly KEYBOARD_LANG="en,fr" # comma separated languages
+readonly KEYBOARD_TOGGLE="alt_shift_toggle" # alt+shift to switch between languages
 
 readonly KIOSK_DESKTOP_RC="\
 [Desktop]\n\
@@ -61,6 +63,7 @@ readonly START_CHROME="\
 #!/bin/bash\n\n\
 X_RES=\`xrandr | grep \"*\" | awk -Fx '{ print \$1 }' | sed 's/[^0-9]*//g'\`\n\
 Y_RES=\`xrandr | grep \"*\" | awk -Fx '{ print \$2 }' | awk '{ print \$1 }'\`\n\n\
+setxkbmap -option grp:switch,grp:$KEYBOARD_TOGGLE $KEYBOARD_LANG\n\n\
 /usr/bin/google-chrome --kiosk --start-fullscreen --window-position=0,0 \
 --window-size=\$X_RES,\$Y_RES --no-first-run --incognito --no-default-browser-check \
 --disable-translate $WEB_APP_URL\n"
